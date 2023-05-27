@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+
+<!--
+  ~ Hibernate, Relational Persistence for Idiomatic Java
+  ~
+  ~ License: GNU Lesser General Public License (LGPL), version 2.1 or later.
+  ~ See the lgpl.txt file in the root directory or <http://www.gnu.org/licenses/lgpl-2.1.html>.
+  -->
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.example.teledon.domain">
+    <class name="Booking" table="bookings">
+        <id name="id" column="booking_id">
+            <generator class="increment"/>
+        </id>
+        <property name="status">
+            <column name="status"/>
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">org.example.teledon.domain.BookingStatus</param>
+                <param name="useNamed">false</param>
+            </type>
+        </property>
+        <property name="comment" column="comment"/>
+        <property name="userId" column="user_id"/>
+        <property name="day">
+            <column name="day"/>
+            <type name="org.hibernate.type.LocalDateType"/>
+        </property>
+        <property name="startHour" column="start_hour"/>
+        <property name="endHour" column="end_hour"/>
+    </class>
+</hibernate-mapping>
