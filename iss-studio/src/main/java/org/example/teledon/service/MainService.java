@@ -1,5 +1,6 @@
 package org.example.teledon.service;
 
+import javafx.scene.control.TextArea;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.teledon.domain.*;
@@ -34,8 +35,10 @@ public class MainService {
         return userRepository.findOne(email, password);
     }
 
-    public Iterable<Booking> getBookings(String day) {
-        return null;
+    public List<Booking> getBookings(User user) {
+        List<Booking> bookings = new ArrayList<>();
+        bookingRepository.find(user.getId()).forEach(bookings::add);
+        return bookings;
     }
 
     public List<Timeslot> getTimeslots(LocalDate date) {
@@ -45,7 +48,7 @@ public class MainService {
         if (bookings != null) {
             for (Booking booking : bookings) {
                 if (booking.getStatus() == BookingStatus.ACTIVE) {
-                    for (int h = booking.getStartHour(); h < booking.getEndHour(); h++) {
+                    for (int h = booking.getStartHour(); h <= booking.getEndHour(); h++) {
                         logger.info("SETTING {}", h - 8);
                         day.set(h - 8, new Timeslot(h, true));
                     }
@@ -62,5 +65,31 @@ public class MainService {
             day.add(new Timeslot(h));
         }
         return day;
+    }
+
+    public void addBooking(Long userId, LocalDate day, int startHour, int endHour, String comment) {
+        bookingRepository.add(
+                new Booking(
+                        0L,
+                        BookingStatus.ACTIVE,
+                        comment,
+                        userId,
+                        day,
+                        startHour,
+                        endHour
+                        ));
+    }
+
+    public void cancelBooking(Booking booking) {
+        booking.setStatus(BookingStatus.CANCELLED);
+        bookingRepository.update(booking, booking.getId());
+    }
+
+    public Booking getBooking(LocalDate day, int startHour) {
+        return bookingRepository.find(day, startHour);
+    }
+
+    public void modifyBooking(Booking booking) {
+        bookingRepository.update(booking, booking.getId());
     }
 }

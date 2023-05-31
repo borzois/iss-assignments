@@ -8,11 +8,13 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.example.teledon.domain.Role;
 import org.example.teledon.domain.User;
 import org.example.teledon.service.MainService;
 
 
 public class LoginController {
+    private boolean autoLogin = true;  // debug
     private MainService service;
     private MainController mainController;
     private static final Logger logger = LogManager.getLogger();
@@ -34,10 +36,16 @@ public class LoginController {
     }
 
     public void handleLogin() {
+        User result = null;
         if (emailField.getText().isEmpty() || passwordField.getText().isEmpty()) {
-            return;
+            if (autoLogin) {
+                result = new User(0L, "debug", "debug", Role.CLIENT);
+            }
+            else {
+                return;
+            }
         }
-        User result = service.login(emailField.getText(), passwordField.getText());
+        if (result == null) result = service.login(emailField.getText(), passwordField.getText());
         if (result == null) {
             logger.warn("incorrect credentials supplied");
 

@@ -33,6 +33,16 @@
                     GridPane.hgrow="ALWAYS"
                     maxWidth="Infinity"/>
 
+        <Button fx:id="clearSelectionButton"
+                onAction="#handleClearSelection"
+                GridPane.rowIndex="0"
+                GridPane.columnIndex="1"
+                GridPane.hgrow="ALWAYS"
+                maxWidth="Infinity"
+                visible="false">
+            Clear
+        </Button>
+
         <Button fx:id="loginButton"
                 onAction="#handleLogin"
                 GridPane.rowIndex="0"
@@ -54,15 +64,38 @@
                   GridPane.columnSpan="1"
                   GridPane.rowSpan="7"/>
 
-        <Button onAction="#handleShowBookings"
+        <Button fx:id="showBookingsButton"
+                onAction="#handleShowBookings"
                 GridPane.rowIndex="1"
                 GridPane.columnIndex="2"
                 GridPane.hgrow="ALWAYS"
-                maxWidth="Infinity">
+                maxWidth="Infinity"
+                visible="false">
             My bookings
         </Button>
 
-        <TextArea GridPane.rowIndex="5"
+        <Button fx:id="cancelBookingButton"
+                onAction="#handleCancel"
+                GridPane.rowIndex="2"
+                GridPane.columnIndex="2"
+                GridPane.hgrow="ALWAYS"
+                maxWidth="Infinity"
+                visible="false">
+            Cancel booking
+        </Button>
+
+        <Button fx:id="modifyBookingButton"
+                onAction="#handleModify"
+                GridPane.rowIndex="3"
+                GridPane.columnIndex="2"
+                GridPane.hgrow="ALWAYS"
+                maxWidth="Infinity"
+                visible="false">
+            Update booking
+        </Button>
+
+        <TextArea fx:id="commentTextArea"
+                  GridPane.rowIndex="5"
                   GridPane.columnIndex="2"
                   GridPane.rowSpan="1"
         maxWidth="250.0"/>

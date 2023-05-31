@@ -47,6 +47,16 @@ public class BookingORMRepository extends BookingRepository {
     }
 
     @Override
+    public Iterable<Booking> find(Long userId) {
+        return null;
+    }
+
+    @Override
+    public Booking find(LocalDate day, int startHour) {
+        return null;
+    }
+
+    @Override
     public void add(Booking elem) {
 
     }
