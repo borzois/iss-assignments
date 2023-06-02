@@ -15,8 +15,7 @@
         <property name="show_sql">true</property>
         <property name="format_sql">true</property>
 
-<!--        <mapping resource="org/example/teledon/domain/User.hbm.xml"/>-->
-<!--        <mapping resource="org/example/teledon/domain/Booking.hbm.xml"/>-->
-        <mapping resource="org/example/teledon/domain/Case.hbm.xml"/>
+        <mapping resource="org/example/teledon/domain/User.hbm.xml"/>
+        <mapping resource="org/example/teledon/domain/Booking.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

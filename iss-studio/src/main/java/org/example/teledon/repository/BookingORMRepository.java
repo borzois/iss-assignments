@@ -48,17 +48,74 @@ public class BookingORMRepository extends BookingRepository {
 
     @Override
     public Iterable<Booking> find(Long userId) {
+        logger.traceEntry("FIND ENTITY");
+        try (Session session = sessionFactory.openSession()) {
+            logger.info("OBTAINED SESSION");
+            Transaction tx = null;
+            try {
+                tx = session.beginTransaction();
+                List<Booking> bookings = session
+                        .createQuery("from Booking as c where c.userId = :userId", Booking.class)
+                        .setParameter("userId", userId)
+                        .list();
+                logger.info(bookings.size() + " booking(s) found:");
+
+                tx.commit();
+                return bookings;
+            } catch (RuntimeException e) {
+                logger.error(e);
+                if (tx != null) {
+                    tx.rollback();
+                }
+            }
+        }
+        logger.traceExit();
         return null;
     }
 
     @Override
     public Booking find(LocalDate day, int startHour) {
+        logger.traceEntry("FIND ENTITY");
+        try (Session session = sessionFactory.openSession()) {
+            logger.info("OBTAINED SESSION");
+            Transaction tx = null;
+            try {
+                tx = session.beginTransaction();
+                Booking booking = session
+                        .createQuery("from Booking as c where c.day=:day and c.startHour=:hour", Booking.class)
+                        .setParameter("day", day)
+                        .setParameter("hour", startHour)
+                        .stream().findFirst().orElse(null);
+                tx.commit();
+                return booking;
+            } catch (RuntimeException e) {
+                logger.error(e);
+                if (tx != null) {
+                    tx.rollback();
+                }
+            }
+        }
+        logger.traceExit();
         return null;
     }
 
     @Override
     public void add(Booking elem) {
-
+        logger.traceEntry("saving entity {}", elem);
+        try(Session session = sessionFactory.openSession()) {
+            Transaction tx = null;
+            try {
+                tx = session.beginTransaction();
+                session.save(elem);
+                tx.commit();
+            } catch (RuntimeException e) {
+                logger.error(e);
+                if (tx != null) {
+                    tx.rollback();
+                }
+            }
+        }
+        logger.traceExit();
     }
 
     @Override
@@ -68,7 +125,22 @@ public class BookingORMRepository extends BookingRepository {
 
     @Override
     public void update(Booking elem, Long aLong) {
-
+        logger.traceEntry("updating entity {}", elem);
+        try(Session session = sessionFactory.openSession()) {
+            Transaction tx = null;
+            try {
+                tx = session.beginTransaction();
+                elem.setId(aLong);
+                session.update(elem);
+                tx.commit();
+            } catch (RuntimeException e) {
+                logger.error(e);
+                if (tx != null) {
+                    tx.rollback();
+                }
+            }
+        }
+        logger.traceExit();
     }
 
     @Override

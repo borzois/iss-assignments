@@ -44,8 +44,7 @@ public class MainClass extends Application {
         UserDBRepository userDBRepository = new UserDBRepository(properties);
         BookingDBRepository bookingDBRepository = new BookingDBRepository(properties);
 //        BookingORMRepository bookingORMRepository = new BookingORMRepository(sessionFactory);
-//        CaseORMRepository caseORMRepository = new CaseORMRepository(sessionFactory);
-//        caseORMRepository.findAll().forEach(System.out::println);
+
         service = new MainService(userDBRepository, bookingDBRepository);
 
         initView(primaryStage);
